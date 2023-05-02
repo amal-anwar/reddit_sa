@@ -1,4 +1,4 @@
-#Reddit data sentiment analysis tool using Textblob
+# Reddit data sentiment analysis tool using Textblob
 
 Description: A web application for analysing reddit post titles from any subreddit and displaying the sentiment analysis results in the form of a histogram, pie chart and data table. 
 

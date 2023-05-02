@@ -1,8 +1,8 @@
 # Project Title: Reddit data sentiment analysis tool 
 
-# Description: A web application for analysing reddit post titles from any subreddit 
+Description: A web application for analysing reddit post titles from any subreddit 
 
-#Installation requirements: using the 'pip' command, install the following - 
+Installation requirements: using the 'pip' command, install the following - 
 	1. matplotlib
 	2. requests
 	3. pandas

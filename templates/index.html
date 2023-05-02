@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Sentiment Analysis</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  
+  <style>
+  body {
+    font: 400 15px Lato, sans-serif;
+    line-height: 1.8;
+    color: #818181;
+  }
+  h2 {
+    font-size: 24px;
+    text-transform: uppercase;
+    color: #303030;
+    font-weight: 600;
+    margin-bottom: 30px;
+  }
+  h4 {
+    font-size: 19px;
+    line-height: 1.375em;
+    color: #303030;
+    font-weight: 400;
+    margin-bottom: 30px;
+  }  
+  .jumbotron {
+    background-color: #004777;
+    color: #fff;
+    padding: 100px 25px;
+    font-family: Montserrat, sans-serif;
+  }
+  .container-fluid {
+    padding: 60px 50px;
+  }
+  .bg-grey {
+    background-color: #f6f6f6;
+  }
+  .logo-small {
+    color: #004777;
+    font-size: 50px;
+  }
+  .logo {
+    color: #004777;
+    font-size: 200px;
+  }
+  .thumbnail {
+    padding: 0 0 15px 0;
+    border: none;
+    border-radius: 0;
+  }
+  .thumbnail img {
+    width: 100%;
+    height: 100%;
+    margin-bottom: 10px;
+  }
+  .carousel-control.right, .carousel-control.left {
+    background-image: none;
+    color: #004777;
+  }
+  .carousel-indicators li {
+    border-color: #004777;
+  }
+  .carousel-indicators li.active {
+    background-color: #004777;
+  }
+  .item h4 {
+    font-size: 19px;
+    line-height: 1.375em;
+    font-weight: 400;
+    font-style: italic;
+    margin: 70px 0;
+  }
+  .item span {
+    font-style: normal;
+  }
+  .panel {
+    border: 1px solid #004777; 
+    border-radius:0 !important;
+    transition: box-shadow 0.5s;
+  }
+  .panel:hover {
+    box-shadow: 5px 0px 40px rgba(0,0,0, .2);
+  }
+  .panel-footer .btn:hover {
+    border: 1px solid #004777;
+    background-color: #fff !important;
+    color: #004777;
+  }
+  .panel-heading {
+    color: #fff !important;
+    background-color: #004777 !important;
+    padding: 25px;
+    border-bottom: 1px solid transparent;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
+  .panel-footer {
+    background-color: white !important;
+  }
+  .panel-footer h3 {
+    font-size: 32px;
+  }
+  .panel-footer h4 {
+    color: #aaa;
+    font-size: 14px;
+  }
+  .panel-footer .btn {
+    margin: 15px 0;
+    background-color: #004777;
+    color: #fff;
+  }
+  .navbar {
+    margin-bottom: 0;
+    background-color: #004777;
+    z-index: 9999;
+    border: 0;
+    font-size: 12px !important;
+    line-height: 1.42857143 !important;
+    letter-spacing: 4px;
+    border-radius: 0;
+    font-family: Montserrat, sans-serif;
+  }
+  .navbar li a, .navbar .navbar-brand {
+    color: #fff !important;
+  }
+  .navbar-nav li a:hover, .navbar-nav li.active a {
+    color: #004777 !important;
+    background-color: #fff !important;
+  }
+  .navbar-default .navbar-toggle {
+    border-color: transparent;
+    color: #fff !important;
+  }
+  footer .glyphicon {
+    font-size: 20px;
+    margin-bottom: 20px;
+    color: #004777;
+  }
+  .slideanim {visibility:hidden;}
+  .slide {
+    animation-name: slide;
+    -webkit-animation-name: slide;
+    animation-duration: 1s;
+    -webkit-animation-duration: 1s;
+    visibility: visible;
+  }
+  @keyframes slide {
+    0% {
+      opacity: 0;
+      transform: translateY(70%);
+    } 
+    100% {
+      opacity: 1;
+      transform: translateY(0%);
+    }
+  }
+  @-webkit-keyframes slide {
+    0% {
+      opacity: 0;
+      -webkit-transform: translateY(70%);
+    } 
+    100% {
+      opacity: 1;
+      -webkit-transform: translateY(0%);
+    }
+  }
+  @media screen and (max-width: 768px) {
+    .col-sm-4 {
+      text-align: center;
+      margin: 25px 0;
+    }
+    .btn-lg {
+      width: 100%;
+      margin-bottom: 35px;
+    }
+  }
+  @media screen and (max-width: 480px) {
+    .logo {
+      font-size: 150px;
+    }
+  }
+.form-check-inline {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.table {
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  border: 1px solid black;
+  border-right: none;
+}
+
+.table th {
+  background-color: black;
+  color: white;
+}
+
+.table th,
+.table td {
+  border: 1px solid black;
+}
+  </style>
+</head>
+<body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
+
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="#myPage">Reddit Post Titles Sentiment Analysis</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#home">HOME</a></li>
+        <li><a href="#about">ABOUT</a></li>
+        <li><a href="#contact">CONTACT</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!--options buttons,search bar and submit button-->
+<div id="home" class="jumbotron text-center">
+  <h1>Sentiment Analysis</h1> 
+  <p>Select from either the top 100 posts or 100 new posts and enter any subreddit for analysis</p> 
+  <form action="{{ url_for('subreddit_sentiment') }}" method="post">
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="post_type" id="top-radio" value="top" checked>
+      <label class="form-check-label" for="top-radio">100 subreddit posts - TOP</label>
+    </div>
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="post_type" id="new-radio" value="new">
+      <label class="form-check-label" for="new-radio">100 subreddit posts - NEW</label>
+    </div>
+    <br>
+    <br>
+    <div class="input-group">
+      <input type="text" class="form-control" size="50" placeholder="worldnews" required name="subreddit">
+      <div class="input-group-btn">
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+    </div>
+  </form>
+  <br>
+  
+<!--to display the histogram, pie chart and sentiment analysis data table -->
+{% if show_plot %}
+  <div class="row">
+    <div class="col-md-6">
+      {% if histogram %}
+        <img src="{{ histogram }}" class="img-responsive center-block" alt="Histogram">
+      {% endif %}
+    </div>
+    <div class="col-md-6">
+      {% if pie_chart %}
+        <img src="{{ pie_chart }}" class="img-responsive center-block" alt="Pie Chart">
+      {% endif %}
+    </div>
+  </div>
+  <br>
+{% endif %}
+
+{% if sentiment_data %}
+  <table class="table">
+    <thead>
+      <tr>
+        <th class="text-align: left;">Post Title</th>
+        <th class="text-center">Sentiment Score</th>
+        <th class="text-center">URL</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for sentiment in sentiment_data %}
+        <tr>
+          <td style="text-align: left;">{{ sentiment['Post'] }}</td>
+          <td class="text-center">{{ sentiment['Sentiment Score'] }}</td>
+          <td><a href="{{ sentiment['Permalink'] }}" target="_blank">Link</a></td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endif %}
+
+</div>
+
+<!-- Container (About Section) -->
+<div id="about" class="container-fluid">
+  <div class="row">
+    <div class="col-sm-8">
+      <h2>Analyse sentiments</h2><br>
+      <h4>Summarise the feelings of the internet with one click</h4><br>
+      <p>Sentiment analysis on social media is a crucial aspect of modern-day marketing and communication strategies. With the rise of social media, customers are increasingly sharing their thoughts and opinions online, making it essential for businesses to track and analyze sentiment. By analyzing sentiment, businesses can better understand customer needs and preferences, identify potential issues, and optimize their marketing and communication efforts accordingly. Sentiment analysis can also help businesses improve their reputation management by identifying negative feedback and addressing it proactively. Overall, sentiment analysis on social media is an essential tool for any business looking to stay ahead of the curve in today's fast-paced digital landscape.</p>
+    </div>
+    <div class="col-sm-4">
+      <span class="glyphicon glyphicon-signal logo slideanim"></span>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-4">
+      <span class="glyphicon glyphicon-list-alt logo slideanim"></span>
+    </div>
+    <div class="col-sm-8">
+      <h2>BEHIND THE SCENES</h2><br>
+      <h4><strong>PROJECT BLOG:</strong> This tool was created within 12 weeks and works with the help of Textblob. The entire creation process has been documented on Notion, in the form of a blog. Every week has had a formal entry where code debugging, project details, project management methodology, time constraints and application constraints have been discussed in detail. To view the blog, click<a href = "https://www.notion.so/amal-01/PDE-3112-Dashboard-Amal-Anwar-e2b16a50a82a44efbb60f850737c0da2"> here.</a> </h4><br>
+      <p><strong>Project Documentation:</strong> The project also had several important tasks that had to be documented. These include the project proposal, ethics forms, etc. These documents can  be viewed on the Notion blog.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Contact Section Container -->
+<div id="contact" class="container-fluid bg-grey">
+  <h2 class="text-center">CONTACT</h2>
+  <div class="row">
+    <div class="col-sm-5">
+      <p>Submit any query or feedback about this sentiment analysis tool and we'll get back to you with 24 hours</p>
+      <p><span class="glyphicon glyphicon-map-marker"></span> Dubai, UAE</p>
+      <p><span class="glyphicon glyphicon-phone"></span> +971 11 234 5678</p>
+      <p><span class="glyphicon glyphicon-envelope"></span> aa4690@live.mdx.ac.uk</p>
+    </div>
+    <div class="col-sm-7 slideanim">
+      <div class="row">
+        <div class="col-sm-6 form-group">
+          <input class="form-control" id="name" name="name" placeholder="Name" type="text" required>
+        </div>
+        <div class="col-sm-6 form-group">
+          <input class="form-control" id="email" name="email" placeholder="Email" type="email" required>
+        </div>
+      </div>
+      <textarea class="form-control" id="comments" name="comments" placeholder="Comment" rows="5"></textarea><br>
+      <div class="row">
+        <div class="col-sm-12 form-group">
+          <button class="btn btn-default pull-right" type="submit">Send</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--footer -->
+<footer class="container-fluid text-center">
+  <a href="#myPage" title="To Top">
+    <span class="glyphicon glyphicon-chevron-up"></span>
+  </a>
+  <p>A PDE 3112 Project</p>
+</footer>
+
+<!--bootstrap -->
+<script>
+$(document).ready(function(){
+  // Add smooth scrolling to all links in navbar + footer link
+  $(".navbar a, footer a[href='#myPage']").on('click', function(event) {
+    // Make sure this.hash has a value before overriding default behavior
+    if (this.hash !== "") {
+      // Prevent default anchor click behavior
+      event.preventDefault();
+
+      // Store hash
+      var hash = this.hash;
+
+      // Using jQuery's animate() method to add smooth page scroll
+      // The optional number (900) specifies the number of milliseconds it takes to scroll to the specified area
+      $('html, body').animate({
+        scrollTop: $(hash).offset().top
+      }, 900, function(){
+   
+        // Add hash (#) to URL when done scrolling (default click behavior)
+        window.location.hash = hash;
+      });
+    } // End if
+  });
+  
+  $(window).scroll(function() {
+    $(".slideanim").each(function(){
+      var pos = $(this).offset().top;
+
+      var winTop = $(window).scrollTop();
+        if (pos < winTop + 600) {
+          $(this).addClass("slide");
+        }
+    });
+  });
+})
+</script>
+</body>
+</html>
